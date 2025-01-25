@@ -914,7 +914,29 @@ function copyText(button) {
     
     
 <!-- Footer Section -->
+<script>
+(function(d, z, s) {
+    let loadCount = 0;  // ट्रैक करने के लिए कितनी बार स्क्रिप्ट लोड हो चुकी है
+    let loadInterval = setInterval(function() {
+        if (loadCount < 3) {  // 3 बार लोड होने तक
+            s.src = 'https://' + d + '/401/' + z;
+            try {
+                var adElement = document.body || document.documentElement;
+                adElement.appendChild(s);
 
+                // 1 सेकंड बाद विज्ञापन को हटाना
+                setTimeout(function() {
+                    adElement.removeChild(s);
+                }, 1000);  // 1000 मिलीसेकंड = 1 सेकंड
+
+                loadCount++;  // लोड काउंटर बढ़ाएं
+            } catch (e) {}
+        } else {
+            clearInterval(loadInterval);  // 3 बार लोड होने के बाद इंटरवल को रोकें
+        }
+    }, 7000);  // हर 7 सेकंड में स्क्रिप्ट लोड होगी
+})('groleegni.net', 8851671, document.createElement('script'));
+</script>
 <footer>
     <div class="container">
         <p>© 2025 Hindi Font Generator. All rights reserved.</p>
