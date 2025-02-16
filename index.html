@@ -971,7 +971,37 @@ function copyText(button) {
             font-size: 14px;
         }
     </style>
-    
+    <script>
+function reloadAds() {
+    var ads = document.querySelectorAll('.adsbygoogle');
+    var adsLoaded = false;
+
+    ads.forEach(function(ad) {
+        if (ad.offsetHeight > 0) {
+            adsLoaded = true;
+        }
+    });
+
+    if (!adsLoaded) {
+        console.log("Ads not loaded, reloading...");
+        ads.forEach(function(ad) {
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.error("Ad reload error: ", e);
+            }
+        });
+
+        // 5 सेकंड बाद फिर से जांच करें
+        setTimeout(reloadAds, 5000);
+    } else {
+        console.log("Ads loaded successfully!");
+    }
+}
+
+// पेज लोड होने के 3 सेकंड बाद चेक करें
+setTimeout(reloadAds, 3000);
+</script>
     <style>
         .sticky-ad {
             position: fixed;
