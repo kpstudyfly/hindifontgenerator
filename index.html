@@ -915,7 +915,49 @@ function copyText(button) {
         updatePreviews();
     </script>
     
-   
+   <style>
+        .sticky-ad {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 320px;
+            background: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 9999;
+        }
+        .close-btn {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+    </style>
+
+    <div class="sticky-ad" id="stickyAd">
+        <button class="close-btn" onclick="closeAd()">X</button>
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860439690897518"
+     crossorigin="anonymous"></script>
+<!-- 320 × 50 Footer Sticky -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:320px;height:50px"
+     data-ad-client="ca-pub-8860439690897518"
+     data-ad-slot="2016921144"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+
+    <script>
+        function closeAd() {
+            document.getElementById("stickyAd").style.display = "none";
+        }
+    </script>
 
     <style>
         .nam {
