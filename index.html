@@ -435,18 +435,34 @@
     <br>
 	
 
- <style>
-        .ad-container {
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
+<style>
+        /* डेस्कटॉप विज्ञापन के लिए */
+        .desktop-ad {
+            display: none; /* डिफ़ॉल्ट रूप से छिपा हुआ */
         }
-        .ad-container iframe {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 360 / 300; /* Maintaining the ad aspect ratio */
+
+        /* मोबाइल विज्ञापन के लिए */
+        .mobile-ad {
+            display: none; /* डिफ़ॉल्ट रूप से छिपा हुआ */
+        }
+
+        /* स्क्रीन साइज़ के अनुसार CSS */
+        @media (min-width: 1025px) {
+            .desktop-ad {
+                display: block; /* केवल डेस्कटॉप पर दिखे */
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-ad {
+                display: block; /* केवल मोबाइल पर दिखे */
+            }
         }
     </style>
+
+    
+	
+    
     
 </center> 
 <div style="text-align: justify; margin: 0 20px;">
@@ -456,16 +472,34 @@
     <div class="container">
         <div class="input-section">
             <input type="text" id="text-input" placeholder="यहां अपना टेक्स्ट लिखें...">
-         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860439690897518"
+         <div class="desktop-ad">
+      
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860439690897518"
      crossorigin="anonymous"></script>
-<!-- Strictly -->
+<!-- 728 x 90 Desktop -->
 <ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:100px"
+     style="display:inline-block;width:728px;height:90px"
      data-ad-client="ca-pub-8860439690897518"
-     data-ad-slot="3102670470"></ins>
+     data-ad-slot="9129124406"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+    </div>
+
+    
+    <div class="mobile-ad">
+       
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860439690897518"
+     crossorigin="anonymous"></script>
+<!-- 320 x 50 Mobile -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:320px;height:250px"
+     data-ad-client="ca-pub-8860439690897518"
+     data-ad-slot="2755287748"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
 	 
 		<div class="controls">
                 <div class="control-group">
