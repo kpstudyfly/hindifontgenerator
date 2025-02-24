@@ -978,7 +978,71 @@ function copyText(button) {
                 <p>Contact</p>
             </a>
         </div>
-	    
+	    <style>
+    .sticky-ad {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 9999;
+        padding: 10px 0;
+    }
+    .close-btn {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        background: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+</style>
+
+<div class="sticky-ad" id="stickyAd">
+    <button class="close-btn" onclick="closeAd()">X</button>
+    <div id="ad-container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7300856496577199"
+        crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:320px;height:100px"
+             data-ad-client="ca-pub-7300856496577199"
+             data-ad-slot="1774158810"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+<script>
+    function closeAd() {
+        document.getElementById("stickyAd").style.display = "none";
+    }
+
+    function refreshAd() {
+        let adContainer = document.getElementById("ad-container");
+        adContainer.innerHTML = ''; // पुराने विज्ञापन को हटाएं
+        let adCode = `
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7300856496577199"
+            crossorigin="anonymous"><\/script>
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:320px;height:100px"
+                 data-ad-client="ca-pub-7300856496577199"
+                 data-ad-slot="1774158810"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            <\/script>
+        `;
+        adContainer.innerHTML = adCode; // नया विज्ञापन जोड़ें
+    }
+
+    // हर 30 सेकंड में विज्ञापन को रीफ्रेश करें (समय को अपनी जरूरत के अनुसार बदल सकते हैं)
+    setInterval(refreshAd, 30000);
+</script>
 	    <center> 
         <p>© 2025 Hindi Font Generator.</p>
 </center>
