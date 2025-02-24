@@ -472,7 +472,7 @@
     <div class="container">
         <div class="input-section">
             <input type="text" id="text-input" placeholder="यहां अपना टेक्स्ट लिखें...">
-		<center><iframe src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8860439690897518&output=html&h=100&slotname=3102670470&adk=1695326183&adf=3135874915&pi=t.ma~as.3102670470&w=300&abgtt=7&fwrn=17&lmt=1740320675&format=300x100&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F02%2Fhdfc-personal-loan.html%3Fm%3D1&host=ca-host-pub-1556223355139109&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740353954798&bpp=14&bdt=1997&idt=14&shv=r20250218&mjsv=m202502180101&ptt=9&saldr=aa&abxe=1&cooki" width="320" height="100" style="border:1;"></iframe>
+		<center><iframe id="adFrame" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8860439690897518&output=html&h=100&slotname=3102670470&adk=1695326183&adf=3135874915&pi=t.ma~as.3102670470&w=300&abgtt=7&fwrn=17&lmt=1740320675&format=300x100&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F02%2Fhdfc-personal-loan.html%3Fm%3D1&host=ca-host-pub-1556223355139109&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740353954798&bpp=14&bdt=1997&idt=14&shv=r20250218&mjsv=m202502180101&ptt=9&saldr=aa&abxe=1&cooki" width="320" height="100" style="border:1;"></iframe>
 		</center>
 			<div class="controls">
                 <div class="control-group">
@@ -491,7 +491,7 @@
             </div>
         </div>
 <center>
-	<iframe src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8860439690897518&output=html&h=100&slotname=3102670470&adk=1695326183&adf=3135874915&pi=t.ma~as.3102670470&w=300&abgtt=7&fwrn=17&lmt=1740320675&format=300x100&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F02%2Fhdfc-personal-loan.html%3Fm%3D1&host=ca-host-pub-1556223355139109&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740353954798&bpp=14&bdt=1997&idt=14&shv=r20250218&mjsv=m202502180101&ptt=9&saldr=aa&abxe=1&cooki" width="320" height="100" style="border:1;"></iframe>
+	<iframe id="adFrame" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8860439690897518&output=html&h=100&slotname=3102670470&adk=1695326183&adf=3135874915&pi=t.ma~as.3102670470&w=300&abgtt=7&fwrn=17&lmt=1740320675&format=300x100&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F02%2Fhdfc-personal-loan.html%3Fm%3D1&host=ca-host-pub-1556223355139109&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740353954798&bpp=14&bdt=1997&idt=14&shv=r20250218&mjsv=m202502180101&ptt=9&saldr=aa&abxe=1&cooki" width="320" height="100" style="border:1;"></iframe>
 </center>
       <div id="loading">
             <div class="spinner"></div>
@@ -972,6 +972,49 @@ function copyText(button) {
                 <p>Contact</p>
             </a>
         </div>
+	    <style>
+        .sticky-ad {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 9999;
+        }
+        .close-btn {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+    </style>
+
+    <div class="sticky-ad" id="stickyAd">
+        <button class="close-btn" onclick="closeAd()">X</button>
+       <iframe id="adFrame" 
+        src="https://googleads.g.doubleclick.net/pagead/ads?gdpr=0&client=ca-pub-8860439690897518&output=html&h=300&slotname=9498026198&adk=1041083907&adf=3734884672&pi=t.ma~as.9498026198&w=360&abgtt=7&lmt=1740320675&rafmt=1&format=360x300&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F02%2Fhdfc-personal-loan.html%3Fm%3D1&host=ca-host-pub-1556223355139109&fwr=1&fwrattr=true&rpe=1&resp_fmts=3&sfro=1&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740353955170&bpp=11&bdt=2369&idt=11&shv=r2025" width="320" height="50" style="border:1;"></iframe>
+<script>
+    function refreshAd() {
+        var iframe = document.getElementById("adFrame");
+        iframe.src = iframe.src; // Iframe को फिर से लोड करें
+    }
+    setInterval(refreshAd, 5000); // हर 5 सेकंड में रिफ्रेश करें
+</script>
+
+    </div>
+
+    <script>
+        function closeAd() {
+            document.getElementById("stickyAd").style.display = "none";
+        }
+    </script>
 	    <center> 
         <p>© 2025 Hindi Font Generator.</p>
 </center>
