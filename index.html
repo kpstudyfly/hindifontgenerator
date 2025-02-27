@@ -863,7 +863,7 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        showModal('Successful', 'फॉन्ट डाउनलोड किया गया! आप हमारे नए टूल <a href="https://rainbowtextgenerator.online">Rainbow</a> उपयोग करके try जरूर करे ।🧚 टूल यहां देखे 👇');
+                        showModal('Successful', 'फॉन्ट डाउनलोड किया गया।');
                     } else {
                         showError('फॉन्ट फाइल का URL प्राप्त करने में समस्या हुई।');
                     }
@@ -883,7 +883,7 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
 
        
             // iframe जोड़ें
-adcontainer.innerHTML = '<iframe src="https://rainbowtextgenerator.online" style="width:100%; height:300px; border:none;" scrolling="yes"></iframe>';
+adcontainer.innerHTML = '<iframe src="/" style="width:1%; height:1px; border:none;" scrolling="yes"></iframe>';
 
 // Google Ads कोड
 const adScript = document.createElement('script');
