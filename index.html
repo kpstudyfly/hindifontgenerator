@@ -633,6 +633,7 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
             <span class="close">&times;</span>
             <h2 id="modal-title"></h2>
             <p id="modal-message"></p>
+            <div id="adcontainer"></div>
         </div>
     </div>
 
@@ -655,7 +656,7 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
     const modalMessage = document.getElementById('modal-message');
     const closeModal = document.getElementsByClassName('close')[0];
     const errorMessage = document.getElementById('error-message');
-    const adContainer = document.getElementById('ad-container'); // एडसेंस के लिए कंटेनर
+    const adContainer = document.getElementById('adcontainer'); // एडसेंस के लिए कंटेनर
 
     let currentPage = 1;
     const fontsPerPage = 20;
@@ -880,8 +881,33 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
         modalMessage.textContent = message;
         modal.style.display = 'block';
 
-       adContainer.innerHTML = '<iframe src="https://hindifontgenerator.online" style="width:100%; height:250px; border:none;" scrolling="no"></iframe>';
-    }
+       
+            // iframe जोड़ें
+adcontainer.innerHTML = '<iframe src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8860439690897518&output=html&h=300&slotname=9498026198&adk=4259770189&adf=1567112805&pi=t.ma~as.9498026198&w=360&abgtt=6&lmt=1740614745&rafmt=1&format=360x300&url=https%3A%2F%2Fwww.sharemarketaz.com%2F2025%2F01%2Fanand-rathi-review-demat-account-refer.html%3Fm%3D1&host=ca-host-pub-1556223355139109&fwr=1&fwrattr=true&rpe=1&resp_fmts=3&sfro=1&wgl=1&uach=WyJBbmRyb2lkIiwiIiwiIiwiIiwiIixudWxsLDEsbnVsbCwiIixudWxsLDBd&dt=1740621337616&bpp=13&bdt=1791&idt" style="width:100%; height:300px; border:none;" scrolling="no"></iframe>';
+
+// Google Ads कोड
+const adScript = document.createElement('script');
+adScript.async = true;
+adScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3897841266040168';
+adScript.crossOrigin = 'anonymous';
+document.head.appendChild(adScript);
+
+const adIns = document.createElement('ins');
+adIns.className = 'adsbygoogle';
+adIns.style.display = 'block';
+adIns.setAttribute('data-ad-client', 'ca-pub-3897841266040168');
+adIns.setAttribute('data-ad-slot', '1351287298');
+adIns.setAttribute('data-ad-format', 'auto');
+adIns.setAttribute('data-full-width-responsive', 'true');
+
+// Ad container में ad डालें
+const adContainer = document.createElement('div');
+adContainer.appendChild(adIns);
+document.body.appendChild(adContainer);
+
+// Ad को लोड करें
+(adsbygoogle = window.adsbygoogle || []).push({});
+        }
 
     closeModal.onclick = function() {
         modal.style.display = 'none';
