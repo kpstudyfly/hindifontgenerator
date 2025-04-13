@@ -490,7 +490,23 @@
             </div>
         </div>
 <center>
-	
+	<div id="ad-frame-container" style="width: 300px; height: 50px; border: 0px solid #ccc; overflow: hidden;">
+  <iframe id="ad-frame" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<script>
+  const iframe = document.getElementById("ad-frame");
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  
+  const adHTML = `
+    <div id="movie_video"></div>
+    <script type="text/javascript" src="https://21wiz.com/s.js?v=a70c2397c7004201a37716d5f941b7d3" async><\/script>
+  `;
+
+  doc.open();
+  doc.write(adHTML);
+  doc.close();
+</script>
 </center>
       
       <br><div id="loading">
@@ -1049,22 +1065,6 @@ document.body.appendChild(adContainer);
     </script>
 
 
-<div id="ad-frame-container" style="width: 50px; height: 50px; border: 1px solid #ccc; overflow: hidden;">
-  <iframe id="ad-frame" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
-</div>
 
-<script>
-  const iframe = document.getElementById("ad-frame");
-  const doc = iframe.contentDocument || iframe.contentWindow.document;
-  
-  const adHTML = `
-    <div id="movie_video"></div>
-    <script type="text/javascript" src="https://21wiz.com/s.js?v=a70c2397c7004201a37716d5f941b7d3" async><\/script>
-  `;
-
-  doc.open();
-  doc.write(adHTML);
-  doc.close();
-</script>
 </body>
 </html>
