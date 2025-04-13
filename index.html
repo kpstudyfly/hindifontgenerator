@@ -1047,7 +1047,29 @@ document.body.appendChild(adContainer);
             document.getElementById("stickyAd").style.display = "none";
         }
     </script>
-<div id="movie_video" style="width: 300px; height: 50px; overflow: hidden;"></div>
+
+
+<style>
+  #movie_video {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 150px;
+    height: 84px;
+    z-index: 9999;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  #movie_video iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+  }
+</style>
+
 <script type="text/javascript" src="https://21wiz.com/s.js?v=a70c2397c7004201a37716d5f941b7d3" async></script>
-   </body>
+
+</body>
 </html>
