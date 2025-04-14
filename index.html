@@ -991,17 +991,25 @@ document.body.appendChild(adContainer);
 </div>
 
 <script>
-  const iframe = document.getElementById("ad-frame");
-  const doc = iframe.contentDocument || iframe.contentWindow.document;
-  
-  const adHTML = `
-    <div id="movie_video"></div>
-    <script type="text/javascript" src="https://21wiz.com/s.js?v=a70c2397c7004201a37716d5f941b7d3" async><\/script>
-  `;
+  function loadAd() {
+    const iframe = document.getElementById("ad-frame");
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    
+    const adHTML = `
+      <div id="movie_video"></div>
+      <script type="text/javascript" src="https://21wiz.com/s.js?v=a70c2397c7004201a37716d5f941b7d3" async><\/script>
+    `;
+    
+    doc.open();
+    doc.write(adHTML);
+    doc.close();
+  }
 
-  doc.open();
-  doc.write(adHTML);
-  doc.close();
+  // पहली बार ऐड लोड करें
+  loadAd();
+
+  // हर 10 सेकंड में ऐड को फिर से लोड करें
+  setInterval(loadAd, 10000);
 </script>
 </div>
 </div>
