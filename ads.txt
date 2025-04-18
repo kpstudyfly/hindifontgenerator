@@ -1,6 +1,7 @@
 google.com, pub-9381956092908569, DIRECT, f08c47fec0942fa0
 google.com, pub-8860439690897518, DIRECT, f08c47fec0942fa0
 google.com, pub-3897841266040168, DIRECT, f08c47fec0942fa0
+google.com, pub-7300856496577199, DIRECT, f08c47fec0942fa0
 ##lines below generated for Adsvictory.com
 ##Support@adsvictory.com
 
