@@ -943,8 +943,20 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
 
        
             // iframe जोड़ें
-adcontainer.innerHTML = '<iframe src="" style="width:320px; height:250px; border:none;" scrolling="yes"></iframe>';
-
+adcontainer.innerHTML = `
+        <script src="https://serve.adsvictory.site/tag.js"></script>
+        <div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>
+        <script>
+            window.adsvictory_display = window.adsvictory_display || [];
+            var a_display_preferences = {
+                zone: "uIYOr4F77kLK",
+                width: "300",
+                height: "250",
+                type: "Banner"
+            };
+            adsvictory_display.push(a_display_preferences);
+        </script>`;
+	
 // Google Ads कोड
 const adScript = document.createElement('script');
 adScript.async = true;
