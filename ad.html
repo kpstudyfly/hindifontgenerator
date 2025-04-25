@@ -1,136 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal with AdsVictory Ad</title>
+    <title>Ad Test Page</title>
     <style>
-        /* मॉडल स्टाइल */
-        .modal {
+        #modal {
             display: none;
             position: fixed;
-            z-index: 1;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
         }
-        
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
+            background: white;
+            margin: 100px auto;
             padding: 20px;
-            border: 1px solid #888;
             width: 80%;
-            max-width: 600px;
-            border-radius: 8px;
+            max-width: 500px;
         }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        /* विज्ञापन कंटेनर स्टाइल */
         #adcontainer {
             width: 300px;
             height: 250px;
             margin: 20px auto;
-            border: 1px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* बटन स्टाइल */
-        #openModal {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 20px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
 
-<button id="openModal">मॉडल खोलें</button>
+<button onclick="showModal('Test', 'Ad Display Test')">Show Modal</button>
 
-<!-- मॉडल संरचना -->
-<div id="modal" class="modal">
+<div id="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 id="modalTitle">मॉडल शीर्षक</h2>
-        <p id="modalMessage">मॉडल संदेश यहाँ आएगा</p>
-        <div id="adcontainer">
-            विज्ञापन यहाँ दिखाई देगा
-        </div>
+        <h2 id="modalTitle"></h2>
+        <p id="modalMessage"></p>
+        <div id="adcontainer"></div>
+        <button onclick="document.getElementById('modal').style.display='none'">Close</button>
     </div>
 </div>
 
 <script>
-    // DOM तत्व प्राप्त करें
-    const modal = document.getElementById("modal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalMessage = document.getElementById("modalMessage");
-    const adcontainer = document.getElementById("adcontainer");
-    const openModalBtn = document.getElementById("openModal");
-    const closeBtn = document.getElementsByClassName("close")[0];
+function showModal(title, message) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalMessage').textContent = message;
+    document.getElementById('modal').style.display = 'block';
 
-    // मॉडल खोलने का फंक्शन
-    function showModal(title, message) {
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        modal.style.display = 'block';
+    // Ad container को रीसेट करें
+    const adcontainer = document.getElementById('adcontainer');
+    adcontainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
 
-        // पहले मौजूदा विज्ञापन साफ करें
-        adcontainer.innerHTML = '<div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>';
-        
-        // AdsVictory स्क्रिप्ट डायनामिकली जोड़ें
-        const script1 = document.createElement('script');
-        script1.src = 'https://serve.adsvictory.site/tag.js';
-        script1.async = true;
-        
-        const script2 = document.createElement('script');
-        script2.textContent = `
-            window.adsvictory_display = window.adsvictory_display || [];
-            var a_display_preferences = {
-                zone: "uIYOr4F77kLK",
-                width: "300",
-                height: "250",
-                type: "Banner"
-            };
-            adsvictory_display.push(a_display_preferences);
+    // AdBlocker चेक
+    if(typeof window.adsvictory_display === 'undefined') {
+        adcontainer.innerHTML = `
+            <div style="color:red;padding:20px;text-align:center">
+                <p>AdBlocker detected!</p>
+                <p>Please disable ad blocker to support us</p>
+                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
+            </div>
         `;
-        
-        adcontainer.appendChild(script1);
-        adcontainer.appendChild(script2);
+        return;
     }
 
-    // मॉडल बंद करने का फंक्शन
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    // इवेंट लिस्नर्स
-    openModalBtn.addEventListener('click', () => {
-        showModal("आपका शीर्षक", "यह एक उदाहरण संदेश है");
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
+    // AdsVictory कोड
+    const script1 = document.createElement('script');
+    script1.src = 'https://serve.adsvictory.site/tag.js';
+    script1.async = true;
+    
+    const script2 = document.createElement('script');
+    script2.textContent = `
+        window.adsvictory_display = window.adsvictory_display || [];
+        var a_display_preferences = {
+            zone: "uIYOr4F77kLK",
+            width: "300",
+            height: "250",
+            type: "Banner"
+        };
+        adsvictory_display.push(a_display_preferences);
+    `;
+    
+    adcontainer.innerHTML = '<div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>';
+    document.body.appendChild(script1);
+    document.body.appendChild(script2);
+}
 </script>
 
 </body>
