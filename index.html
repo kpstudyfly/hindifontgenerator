@@ -547,7 +547,7 @@ box-shadow: 0 -6px 18px 0 rgba(9,32,76,.08); }
             <!-- JavaScript द्वारा भरा जाएगा -->
         </div>
 
-
+<center>
 <script src="https://serve.adsvictory.site/tag.js"></script>
 <div class="adsvictory" data-zone="A-p4AsVKfDuhRt"></div>
 <script>
@@ -559,12 +559,13 @@ box-shadow: 0 -6px 18px 0 rgba(9,32,76,.08); }
     a_display_preferences.type = "Banner";
     adsvictory_display.push(a_display_preferences);
 </script>
+	    </center>
 	    <div class="pagination">
             <button id="prev-page" disabled>पिछला</button>
             <span id="page-info">पृष्ठ 1 / 1</span>
             <button id="next-page">अगला</button>
         </div>
-<script src="https://serve.adsvictory.site/tag.js"></script>
+<center>  <script src="https://serve.adsvictory.site/tag.js"></script>
 <div class="adsvictory" data-zone="A-XkVDzyIKCkSY"></div>
 <script>
     window.adsvictory_display = window.adsvictory_display || [];
@@ -575,6 +576,7 @@ box-shadow: 0 -6px 18px 0 rgba(9,32,76,.08); }
     a_display_preferences.type = "Banner";
     adsvictory_display.push(a_display_preferences);
 </script>
+	</center>
 	    <p style="text-align: justify;">A <strong>Hindi font generator</strong> is an online tool designed to convert regular Hindi text into a variety of stylish and unique font styles. With just a few clicks, you can easily create <strong>stylish Hindi fonts</strong> for your posts, blogs, websites, or social media updates. This tool helps you add creativity and personality to your content without the need for complex design skills or software.</p>
 <p style="text-align: justify;">Whether you're working on a blog post, a social media caption, or even an advertisement, using <strong>Hindi fonts</strong> can instantly grab the attention of your audience and make your message stand out.</p>
 	    <h3 style="text-align: justify;">Key Features of the Hindi Font Generator</h3>
@@ -937,36 +939,47 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
     }
 
     function showModal(title, message) {
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        modal.style.display = 'block';
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
 
-       
-            adcontainer.innerHTML = '<iframe src="" style="width:320px; height:250px; border:none;" scrolling="yes"></iframe>';
-	
-// Google Ads कोड
-const adScript = document.createElement('script');
-adScript.async = true;
-adScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-';
-adScript.crossOrigin = 'anonymous';
-document.head.appendChild(adScript);
+    // AdContainer को पहले साफ करें
+    adContainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
 
-const adIns = document.createElement('ins');
-adIns.className = 'adsbygoogle';
-adIns.style.display = 'block';
-adIns.setAttribute('data-ad-client', 'ca-pub-');
-adIns.setAttribute('data-ad-slot', '1351287298');
-adIns.setAttribute('data-ad-format', 'auto');
-adIns.setAttribute('data-full-width-responsive', 'true');
+    // AdVictory script लोड करें और डिटेक्शन करें
+    const adScript = document.createElement('script');
+    adScript.src = 'https://serve.adsvictory.site/tag.js';
+    adScript.async = true;
 
-// Ad container में ad डालें
-const adContainer = document.createElement('div');
-adContainer.appendChild(adIns);
-document.body.appendChild(adContainer);
+    adScript.onload = () => {
+        adContainer.innerHTML = '<div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>';
 
-// Ad को लोड करें
-(adsbygoogle = window.adsbygoogle || []).push({});
-        }
+        const configScript = document.createElement('script');
+        configScript.textContent = `
+            window.adsvictory_display = window.adsvictory_display || [];
+            var a_display_preferences = {
+                zone: "uIYOr4F77kLK",
+                width: "300",
+                height: "250",
+                type: "Banner"
+            };
+            adsvictory_display.push(a_display_preferences);
+        `;
+        document.body.appendChild(configScript);
+    };
+
+    adScript.onerror = () => {
+        adContainer.innerHTML = `
+            <div style="color:red;padding:20px;text-align:center">
+                <p>AdBlocker detected!</p>
+                <p>Please disable ad blocker to support us</p>
+                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
+            </div>
+        `;
+    };
+
+    document.body.appendChild(adScript);
+}
 
     closeModal.onclick = function() {
         modal.style.display = 'none';
