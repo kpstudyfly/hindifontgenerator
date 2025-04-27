@@ -1,97 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <title>Ad Test Page</title>
-    <style>
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
+  <meta charset="UTF-8">
+  <title>Font Preview Tool</title>
 
-        .modal-content {
-            background: white;
-            margin: 100px auto;
-            padding: 20px;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
+  <!-- AdSense का script (एक बार) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3260626041201461"
+    crossorigin="anonymous"></script>
 
-        #adcontainer {
-            width: 300px;
-            height: 250px;
-            margin: 20px auto;
-            border: 1px solid #ddd;
-        }
-    </style>
+  <style>
+    /* अपनी जरूरत के स्टाइल यहाँ लिखो */
+  </style>
 </head>
 <body>
 
-<button onclick="showModal('Test', 'Ad Display Test')">Show Modal</button>
+<!-- AdSense का Display Block (एक बार) -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3260626041201461"
+     data-ad-slot="8503391102"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
-<div id="modal">
-    <div class="modal-content">
-        <h2 id="modalTitle"></h2>
-        <p id="modalMessage"></p>
-        <div id="adcontainer"></div>
-        <button onclick="closeModal()">Close</button>
-    </div>
+<!-- Modal Structure -->
+<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+  <div style="background:white; margin:100px auto; padding:20px; width:90%; max-width:500px; position:relative;">
+    <h2 id="modal-title"></h2>
+    <p id="modal-message"></p>
+    <div id="adcontainer" style="margin-top:20px;"></div>
+    <button onclick="closeModal()" style="margin-top:20px;">Close</button>
+  </div>
 </div>
 
+<!-- बाकी आपका main content -->
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalMessage = document.getElementById('modal-message');
+const adcontainer = document.getElementById('adcontainer');
+
+// Modal Open Function
 function showModal(title, message) {
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalMessage').textContent = message;
-    document.getElementById('modal').style.display = 'block';
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
 
-    const adcontainer = document.getElementById('adcontainer');
-    adcontainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
+    // हर बार adcontainer खाली करो
+    adcontainer.innerHTML = '';
 
-    // Check if ad blocker is enabled by trying to load script
-    const testScript = document.createElement('script');
-    testScript.src = 'https://serve.adsvictory.site/tag.js';
-    testScript.async = true;
+    // Matloom/Advictory Ad Code
+    const advScriptOptions = document.createElement('script');
+    advScriptOptions.type = 'text/javascript';
+    advScriptOptions.innerHTML = `
+        atOptions = {
+            'key' : '00171124b49d47b0ffd09b62928d1616',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+        };
+    `;
+    const advScriptInvoke = document.createElement('script');
+    advScriptInvoke.type = 'text/javascript';
+    advScriptInvoke.src = '//matloomreconcile.com/00171124b49d47b0ffd09b62928d1616/invoke.js';
 
-    testScript.onload = () => {
-        adcontainer.innerHTML = '<div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>';
-
-        const inlineScript = document.createElement('script');
-        inlineScript.textContent = `
-            window.adsvictory_display = window.adsvictory_display || [];
-            window.adsvictory_display.push({
-                zone: "uIYOr4F77kLK",
-                width: "300",
-                height: "250",
-                type: "Banner"
-            });
-        `;
-        document.body.appendChild(inlineScript);
-    };
-
-    testScript.onerror = () => {
-        adcontainer.innerHTML = `
-            <div style="color:red;padding:20px;text-align:center">
-                <p>AdBlocker detected!</p>
-                <p>Please disable ad blocker to support us</p>
-                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
-            </div>
-        `;
-    };
-
-    document.body.appendChild(testScript);
+    adcontainer.appendChild(advScriptOptions);
+    adcontainer.appendChild(advScriptInvoke);
 }
 
+// Modal Close Function
 function closeModal() {
-    document.getElementById('modal').style.display = 'none';
+    modal.style.display = 'none';
 }
+
+// Modal के बाहर क्लिक पर बंद करना
+window.onclick = function(event) {
+  if (event.target == modal) {
+    closeModal();
+  }
+}
+
 </script>
 
 </body>
