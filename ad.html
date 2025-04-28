@@ -1,11 +1,39 @@
-<script src="https://serve.adsvictory.site/tag.js"></script>
-<div class="adsvictory" data-zone="A-OJ5wb6uYM35f"></div>
+<div id="ad-container">
+    <div class="adsvictory" data-zone="A-OJ5wb6uYM35f"></div>
+</div>
+
 <script>
-    window.adsvictory_display = window.adsvictory_display || [];
-    var a_display_preferences = {};
-    a_display_preferences.zone = "OJ5wb6uYM35f";
-    a_display_preferences.width = "300";
-    a_display_preferences.height = "250";
-    a_display_preferences.type = "Banner";
-    adsvictory_display.push(a_display_preferences);
+function loadAd() {
+    // ad-container को साफ करें
+    var adContainer = document.getElementById('ad-container');
+    adContainer.innerHTML = '<div class="adsvictory" data-zone="A-OJ5wb6uYM35f"></div>';
+
+    // पुराना script अगर है तो हटाओ (optional, पर safe रहेगा)
+    var oldScript = document.getElementById('adsvictory-script');
+    if (oldScript) {
+        oldScript.remove();
+    }
+
+    // नया script element बनाओ
+    var script = document.createElement('script');
+    script.id = 'adsvictory-script';
+    script.src = 'https://serve.adsvictory.site/tag.js';
+    script.onload = function() {
+        // स्क्रिप्ट लोड होने के बाद adsvictory_display सेट करो
+        window.adsvictory_display = window.adsvictory_display || [];
+        var a_display_preferences = {};
+        a_display_preferences.zone = "OJ5wb6uYM35f";
+        a_display_preferences.width = "300";
+        a_display_preferences.height = "250";
+        a_display_preferences.type = "Banner";
+        adsvictory_display.push(a_display_preferences);
+    };
+    document.body.appendChild(script);
+}
+
+// पहली बार ऐड लोड करो
+loadAd();
+
+// हर 10 सेकंड में ऐड फिर से लोड करो
+setInterval(loadAd, 10000);
 </script>
