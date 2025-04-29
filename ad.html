@@ -1,39 +1,757 @@
-<div id="ad-container">
-    <div class="adsvictory" data-zone="A-OJ5wb6uYM35f"></div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedVid Pro - Advanced Reddit Video Downloader</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --info: #06b6d4;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-dark: linear-gradient(135deg, var(--dark), #334155);
+        }
 
-<script>
-function loadAd() {
-    // ad-container को साफ करें
-    var adContainer = document.getElementById('ad-container');
-    adContainer.innerHTML = '<div class="adsvictory" data-zone="A-OJ5wb6uYM35f"></div>';
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: #334155;
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
 
-    // पुराना script अगर है तो हटाओ (optional, पर safe रहेगा)
-    var oldScript = document.getElementById('adsvictory-script');
-    if (oldScript) {
-        oldScript.remove();
-    }
+        /* Header Styles */
+        .navbar {
+            background: var(--gradient-dark) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    // नया script element बनाओ
-    var script = document.createElement('script');
-    script.id = 'adsvictory-script';
-    script.src = 'https://serve.adsvictory.site/tag.js';
-    script.onload = function() {
-        // स्क्रिप्ट लोड होने के बाद adsvictory_display सेट करो
-        window.adsvictory_display = window.adsvictory_display || [];
-        var a_display_preferences = {};
-        a_display_preferences.zone = "OJ5wb6uYM35f";
-        a_display_preferences.width = "300";
-        a_display_preferences.height = "250";
-        a_display_preferences.type = "Banner";
-        adsvictory_display.push(a_display_preferences);
-    };
-    document.body.appendChild(script);
-}
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-// पहली बार ऐड लोड करो
-loadAd();
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            margin: 0 0.5rem;
+        }
 
-// हर 10 सेकंड में ऐड फिर से लोड करो
-setInterval(loadAd, 10000);
-</script>
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 120px 0;
+            background: var(--gradient-primary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            font-size: 3rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px !important;
+            overflow: hidden;
+        }
+
+        .form-control {
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+        .btn-download {
+            background-color: var(--dark);
+            color: white;
+            font-weight: 600;
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-download:hover {
+            background-color: #0f172a;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .feature-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 1.5rem;
+            color: white;
+            background: var(--gradient-primary);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-card h3 {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: #f1f5f9;
+        }
+
+        .step-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .step-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .accordion-button {
+            font-weight: 600;
+            color: var(--dark);
+            padding: 1.25rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary-dark);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(99, 102, 241, 0.25);
+        }
+
+        .accordion-item {
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px !important;
+            overflow: hidden;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            margin: 1.5rem 0;
+        }
+
+        /* Download Options */
+        .download-option {
+            transition: all 0.3s ease;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            height: 100%;
+        }
+
+        .download-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .download-option i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .download-option h5 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .step-number {
+                left: 50%;
+                transform: translateX(-50%);
+                top: -25px;
+            }
+
+            .step-card {
+                padding-top: 50px;
+                text-align: center;
+                border-left: none;
+                border-top: 4px solid var(--primary);
+            }
+
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navbar -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand animate__animated animate__pulse" href="#">
+                    <i class="fab fa-reddit-alien me-2"></i>RedVid Pro
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate__animated animate__fadeInLeft hero-content">
+                    <h1 class="hero-title">Download Reddit Videos in HD Quality</h1>
+                    <p class="hero-subtitle">Fast, free, and unlimited downloads with no watermarks</p>
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" id="videoUrl" placeholder="Paste Reddit video URL here...">
+                        <button class="btn btn-download" id="downloadBtn">Download</button>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <span class="badge bg-success me-2"><i class="fas fa-check-circle me-1"></i> No Registration</span>
+                            <span class="badge bg-info"><i class="fas fa-bolt me-1"></i> Instant Download</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate__animated animate__fadeInRight">
+                    <img src="https://via.placeholder.com/600x400/4f46e5/ffffff?text=RedVid+Pro" alt="Reddit Video Downloader" class="img-fluid rounded-3 shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">Premium Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4 animate__animated animate__fadeInUp">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Lightning Fast</h3>
+                            <p class="text-muted">Download videos in seconds with our optimized high-speed servers and CDN network.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon" style="background: linear-gradient(135deg, var(--secondary), #f97316);">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <h3>Multiple Formats</h3>
+                            <p class="text-muted">Download in MP4, GIF, MP3 or choose from multiple quality options for each format.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon" style="background: linear-gradient(135deg, var(--accent), #d946ef);">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Mobile Friendly</h3>
+                            <p class="text-muted">Works perfectly on all devices including smartphones and tablets with responsive design.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">How It Works</h2>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="steps">
+                        <div class="step-card animate__animated animate__fadeInLeft">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Copy Reddit Video URL</h4>
+                                <p class="text-muted">Find the video on Reddit and copy its link from the address bar or share button.</p>
+                            </div>
+                        </div>
+                        <div class="step-card animate__animated animate__fadeInLeft animate__delay-1s">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Paste URL in Our Tool</h4>
+                                <p class="text-muted">Paste the URL in the input field at the top of this page and click download.</p>
+                            </div>
+                        </div>
+                        <div class="step-card animate__animated animate__fadeInLeft animate__delay-2s">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Download Your Video</h4>
+                                <p class="text-muted">Choose your preferred format and quality, then download directly to your device.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate__animated animate__fadeInRight">
+                    <div class="ratio ratio-16x9 shadow rounded-3 overflow-hidden">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="How to use RedVid Pro" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Results Section (Hidden by default) -->
+    <section id="downloadResults" class="py-5 bg-light d-none">
+        <div class="container">
+            <h2 class="text-center section-title mb-5">Download Options</h2>
+            <div class="row g-4" id="formatOptions">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">Frequently Asked Questions</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item animate__animated animate__fadeInUp">
+                            <h3 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Is RedVid Pro really free to use?
+                                </button>
+                            </h3>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, RedVid Pro is completely free to use with no hidden charges. We support our service through non-intrusive advertisements and optional premium features.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item animate__animated animate__fadeInUp">
+                            <h3 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    What video formats and quality options are available?
+                                </button>
+                            </h3>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We support MP4 (video in 1080p, 720p, 480p), MP3 (audio only at 128kbps and 320kbps), and GIF formats (small, medium, large). The available options depend on the original video quality on Reddit.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item animate__animated animate__fadeInUp">
+                            <h3 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Is there any limit on how many videos I can download?
+                                </button>
+                            </h3>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    No, there are no limits! You can download as many videos as you want, as often as you want. Our service is completely unlimited for all users.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item animate__animated animate__fadeInUp">
+                            <h3 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    Do you store the videos I download?
+                                </button>
+                            </h3>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    No, we don't store any videos on our servers. We simply fetch them from Reddit when you request a download and deliver them directly to you. Your privacy is important to us.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="footer-links mb-3">
+                        <a href="/about">About Us</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/privacy-policy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/contact">Contact</a>
+                    </div>
+                    <hr class="footer-divider">
+                    <div class="social-links mb-4">
+                        <a href="#" class="text-white mx-2"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-reddit fa-lg"></i></a>
+                    </div>
+                    <p class="mb-0">&copy; 2025 RedVid Pro. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Scroll animations
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if(elementPosition < screenPosition) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on page load
+            
+            // Download button functionality
+            const downloadBtn = document.getElementById('downloadBtn');
+            const videoUrlInput = document.getElementById('videoUrl');
+            const downloadResults = document.getElementById('downloadResults');
+            const formatOptions = document.getElementById('formatOptions');
+            
+            downloadBtn.addEventListener('click', function() {
+                const url = videoUrlInput.value.trim();
+                
+                if(!url) {
+                    showAlert('Please enter a valid Reddit video URL', 'danger');
+                    return;
+                }
+                
+                if(!isValidRedditUrl(url)) {
+                    showAlert('Please enter a valid Reddit video URL', 'danger');
+                    return;
+                }
+                
+                // Simulate loading
+                downloadBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processing...';
+                downloadBtn.disabled = true;
+                
+                // Simulate API call with timeout
+                setTimeout(function() {
+                    // Reset button
+                    downloadBtn.innerHTML = 'Download';
+                    downloadBtn.disabled = false;
+                    
+                    // Show results
+                    showDownloadOptions(url);
+                }, 1500);
+            });
+            
+            // Validate Reddit URL
+            function isValidRedditUrl(url) {
+                const pattern = /^https?:\/\/(www\.)?reddit\.com\/r\/.+\/comments\/.+/;
+                return pattern.test(url);
+            }
+            
+            // Show download options
+            function showDownloadOptions(url) {
+                // Clear previous results
+                formatOptions.innerHTML = '';
+                
+                // Add download options
+                const formats = [
+                    { name: 'HD Video (MP4)', quality: '1080p', type: 'video', icon: 'fa-film', color: 'primary' },
+                    { name: 'SD Video (MP4)', quality: '720p', type: 'video', icon: 'fa-video', color: 'info' },
+                    { name: 'High Quality Audio (MP3)', quality: '320kbps', type: 'audio', icon: 'fa-music', color: 'success' },
+                    { name: 'Animated GIF', quality: 'High Quality', type: 'gif', icon: 'fa-image', color: 'warning' }
+                ];
+                
+                formats.forEach(format => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp';
+                    
+                    col.innerHTML = `
+                        <div class="download-option">
+                            <i class="fas ${format.icon} text-${format.color}"></i>
+                            <h5>${format.name}</h5>
+                            <p class="text-muted small mb-3">${format.quality}</p>
+                            <button class="btn btn-outline-${format.color} download-format" data-type="${format.type}">
+                                Download Now
+                            </button>
+                        </div>
+                    `;
+                    
+                    formatOptions.appendChild(col);
+                });
+                
+                // Show results section
+                downloadResults.classList.remove('d-none');
+                
+                // Scroll to results
+                downloadResults.scrollIntoView({ behavior: 'smooth' });
+                
+                // Add event listeners to download buttons
+                document.querySelectorAll('.download-format').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const type = this.getAttribute('data-type');
+                        initiateDownload(url, type);
+                    });
+                });
+            }
+            
+            // Initiate download
+            function initiateDownload(url, type) {
+                // In a real implementation, this would call your backend API
+                showAlert(`Preparing ${type} download...`, 'success');
+                
+                // Simulate download preparation
+                setTimeout(() => {
+                    // This would be replaced with actual download logic
+                    // For demo purposes, we'll create a dummy download link
+                    const dummyLink = document.createElement('a');
+                    dummyLink.href = '#';
+                    dummyLink.download = `redvid-pro-${Date.now()}.${type === 'audio' ? 'mp3' : type === 'gif' ? 'gif' : 'mp4'}`;
+                    dummyLink.click();
+                    
+                    showAlert('Download started!', 'success');
+                }, 1000);
+            }
+            
+            // Show alert message
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+                alertDiv.style.zIndex = '1100';
+                alertDiv.role = 'alert';
+                alertDiv.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+                        <div>${message}</div>
+                        <button type="button" class="btn-close ms-3" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                document.body.appendChild(alertDiv);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
