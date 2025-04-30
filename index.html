@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 	<script>
+        let popupOpened = false;
+
+        document.addEventListener("click", function () {
+            if (!popupOpened) {
+                window.open("https://matloomreconcile.com/whhe20kz?key=e9263aaa9ba9b20455ae1c00f6f05485", "_blank");
+                popupOpened = true;
+            }
+        });
+    </script>
+	<script>
   if (window.top !== window.self) {
     // Agar page iframe ke andar hai to redirect kare
     window.top.location = window.self.location.href;
