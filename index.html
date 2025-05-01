@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+	<script>
+let popupEnabled = false;
+let popupOpened = false;
+
+// 30 second ke baad popup allow hoga
+setTimeout(() => {
+    popupEnabled = true;
+}, 30000);
+
+// Click listener
+document.addEventListener("click", function () {
+    if (popupEnabled && !popupOpened) {
+        window.open("https://sawutser.top/4/8866854", "_blank");
+        popupOpened = true;
+    }
+});
+
+</script>
 	<script async src="https://ss.mrmnd.com/dynamic.js" data-mnddynid="053ce5a9-230e-4881-a3b0-6605147c24da"></script>
-	<script type="text/javascript" src="https://fstatic.netpub.media/extra/cmp/cmp-gdpr.js" defer></script>
 	<script>
   if (window.top !== window.self) {
     // Agar page iframe ke andar hai to redirect kare
