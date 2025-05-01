@@ -927,48 +927,51 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
     }
 
     function showModal(title, message) {
+    function showModal(title, message) {
     modalTitle.textContent = title;
     modalMessage.textContent = message;
     modal.style.display = 'block';
 
-    // AdContainer को पहले साफ करें
+    // AdContainer को पहले साफ करें और लोडिंग मैसेज दिखाएं
     adContainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
 
-    // AdVictory script लोड करें और डिटेक्शन करें
+    // नया Ad config स्क्रिप्ट
     const adScript = document.createElement('script');
-    adScript.src = 'https://serve.adsvictory.site/tag.js';
-    adScript.async = true;
+    adScript.type = 'text/javascript';
+    adScript.text = `
+        atOptions = {
+            'key' : '00171124b49d47b0ffd09b62928d1616',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+        };
+    `;
 
-    adScript.onload = () => {
-        adContainer.innerHTML = '<div class="adsvictory" data-zone="A-uIYOr4F77kLK"></div>';
+    // invoke स्क्रिप्ट
+    const invokeScript = document.createElement('script');
+    invokeScript.type = 'text/javascript';
+    invokeScript.src = '//matloomreconcile.com/00171124b49d47b0ffd09b62928d1616/invoke.js';
 
-        const configScript = document.createElement('script');
-        configScript.textContent = `
-            window.adsvictory_display = window.adsvictory_display || [];
-            var a_display_preferences = {
-                zone: "uIYOr4F77kLK",
-                width: "300",
-                height: "250",
-                type: "Banner"
-            };
-            adsvictory_display.push(a_display_preferences);
-        `;
-        document.body.appendChild(configScript);
-    };
+    // fallback: अगर 3 सेकंड में ad नहीं आया तो placeholder दिखाएं
+    let fallbackTimeout = setTimeout(() => {
+        if (adContainer.innerHTML.trim() === '' || adContainer.innerHTML.includes('Loading')) {
+            adContainer.innerHTML = `
+                <div style="color:red;padding:20px;text-align:center">
+                    <p>AdBlocker detected or ad failed to load!</p>
+                    <p>Please disable ad blocker to support us</p>
+                    <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
+                </div>
+            `;
+        }
+    }, 3000);
 
-    adScript.onerror = () => {
-        adContainer.innerHTML = `
-            <div style="color:red;padding:20px;text-align:center">
-                <p>AdBlocker detected!</p>
-                <p>Please disable ad blocker to support us</p>
-                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
-            </div>
-        `;
-    };
-
-    document.body.appendChild(adScript);
+    // adContainer को साफ करें और स्क्रिप्ट ऐड करें
+    adContainer.innerHTML = '';
+    adContainer.appendChild(adScript);
+    adContainer.appendChild(invokeScript);
 }
-
+	    
     closeModal.onclick = function() {
         modal.style.display = 'none';
     }
