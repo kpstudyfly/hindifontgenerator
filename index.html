@@ -926,36 +926,33 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
         }
     }
 
-    function showModal(title, message) {
+    
     function showModal(title, message) {
     modalTitle.textContent = title;
     modalMessage.textContent = message;
     modal.style.display = 'block';
 
-    // AdContainer को पहले साफ करें और लोडिंग मैसेज दिखाएं
+    // adContainer को साफ करें और लोडिंग दिखाएं
     adContainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
 
-    // नया Ad config स्क्रिप्ट
-    const adScript = document.createElement('script');
-    adScript.type = 'text/javascript';
-    adScript.text = `
-        atOptions = {
-            'key' : '00171124b49d47b0ffd09b62928d1616',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {}
-        };
-    `;
+    // पहले से atOptions सेट करें
+    window.atOptions = {
+        'key': '00171124b49d47b0ffd09b62928d1616',
+        'format': 'iframe',
+        'height': 250,
+        'width': 300,
+        'params': {}
+    };
 
-    // invoke स्क्रिप्ट
+    // invoke.js स्क्रिप्ट बनाएं
     const invokeScript = document.createElement('script');
     invokeScript.type = 'text/javascript';
     invokeScript.src = '//matloomreconcile.com/00171124b49d47b0ffd09b62928d1616/invoke.js';
 
-    // fallback: अगर 3 सेकंड में ad नहीं आया तो placeholder दिखाएं
-    let fallbackTimeout = setTimeout(() => {
-        if (adContainer.innerHTML.trim() === '' || adContainer.innerHTML.includes('Loading')) {
+    // fallback: अगर ad 3 सेकंड में लोड न हो तो placeholder दिखाएं
+    let fallbackShown = false;
+    const fallbackTimeout = setTimeout(() => {
+        if (!fallbackShown) {
             adContainer.innerHTML = `
                 <div style="color:red;padding:20px;text-align:center">
                     <p>AdBlocker detected or ad failed to load!</p>
@@ -966,9 +963,24 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
         }
     }, 3000);
 
-    // adContainer को साफ करें और स्क्रिप्ट ऐड करें
+    // स्क्रिप्ट लोड होने पर fallback को कैंसल करें
+    invokeScript.onload = () => {
+        fallbackShown = true;
+    };
+
+    invokeScript.onerror = () => {
+        fallbackShown = true;
+        clearTimeout(fallbackTimeout);
+        adContainer.innerHTML = `
+            <div style="color:red;padding:20px;text-align:center">
+                <p>Ad failed to load!</p>
+                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
+            </div>
+        `;
+    };
+
+    // adContainer में स्क्रिप्ट ऐड करें
     adContainer.innerHTML = '';
-    adContainer.appendChild(adScript);
     adContainer.appendChild(invokeScript);
 }
 	    
