@@ -916,61 +916,42 @@ After selecting your font style, click on the “Copy” button. Now, you can pa
     }
 
     
-    function showModal(title, message) {
+function showModal(title, message) {
     modalTitle.textContent = title;
     modalMessage.textContent = message;
     modal.style.display = 'block';
 
-    // adContainer को साफ करें और लोडिंग दिखाएं
-    adContainer.innerHTML = '<div style="padding:20px;text-align:center">Loading advertisement...</div>';
+    // Step 1: Clear adContainer and insert <ins>
+    const scriptId = "6681df1a40479a4cf22121574c02cf7f";
+    adContainer.innerHTML = `
+        <ins class="adv-${scriptId}"
+            data-sizes-desktop="200x200,250x250,300x250,336x280"
+            data-sizes-mobile="200x200,250x250,300x250,336x280"
+            data-slot="2"
+            style="display:block; text-align:center;">
+        </ins>
+        <div id="fallbackAd" style="display:none; color:red; text-align:center; padding:20px;">
+            <p>AdBlocker detected or ad failed to load!</p>
+            <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
+        </div>
+    `;
 
-    // पहले से atOptions सेट करें
-    window.atOptions = {
-        'key': '00171124b49d47b0ffd09b62928d1616',
-        'format': 'iframe',
-        'height': 250,
-        'width': 300,
-        'params': {}
-    };
+    // Step 2: Insert Netpub script into <head> if not already there
+    if (!document.getElementById(scriptId)) {
+        const netpubScript = document.createElement("script");
+        netpubScript.id = scriptId;
+        netpubScript.async = true;
+        netpubScript.src = `https://fstatic.netpub.media/static/${scriptId}.min.js?${Date.now()}`;
+        document.head.appendChild(netpubScript);
+    }
 
-    // invoke.js स्क्रिप्ट बनाएं
-    const invokeScript = document.createElement('script');
-    invokeScript.type = 'text/javascript';
-    invokeScript.src = '//matloomreconcile.com/00171124b49d47b0ffd09b62928d1616/invoke.js';
-
-    // fallback: अगर ad 3 सेकंड में लोड न हो तो placeholder दिखाएं
-    let fallbackShown = false;
-    const fallbackTimeout = setTimeout(() => {
-        if (!fallbackShown) {
-            adContainer.innerHTML = `
-                <div style="color:red;padding:20px;text-align:center">
-                    <p>AdBlocker detected or ad failed to load!</p>
-                    <p>Please disable ad blocker to support us</p>
-                    <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
-                </div>
-            `;
+    // Step 3: Fallback timeout
+    setTimeout(() => {
+        const insEl = adContainer.querySelector(`.adv-${scriptId}`);
+        if (!insEl || insEl.offsetHeight === 0) {
+            adContainer.querySelector("#fallbackAd").style.display = "block";
         }
     }, 3000);
-
-    // स्क्रिप्ट लोड होने पर fallback को कैंसल करें
-    invokeScript.onload = () => {
-        fallbackShown = true;
-    };
-
-    invokeScript.onerror = () => {
-        fallbackShown = true;
-        clearTimeout(fallbackTimeout);
-        adContainer.innerHTML = `
-            <div style="color:red;padding:20px;text-align:center">
-                <p>Ad failed to load!</p>
-                <img src="https://via.placeholder.com/300x250?text=Ad+Placeholder" alt="Ad Placeholder">
-            </div>
-        `;
-    };
-
-    // adContainer में स्क्रिप्ट ऐड करें
-    adContainer.innerHTML = '';
-    adContainer.appendChild(invokeScript);
 }
 	    
     closeModal.onclick = function() {
