@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Instagram Chat Maker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .message-bubble {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chat-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .theme-dark {
+            background: #1a1a1a !important;
+            color: white !important;
+        }
+        
+        .theme-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+        }
+        
+        .theme-ocean {
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%) !important;
+            color: white !important;
+        }
+        
+        .online-indicator {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+        
+        .reaction-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .reaction-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .wave-bar {
+            width: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 15px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 12px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 6px; animation-delay: 0.4s; }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.5); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto p-4 max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+               Insta Chat Maker
+            </h1>
+            <p class="text-gray-600">Create realistic Instagram chats with advanced features</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Controls Panel -->
+            <div class="space-y-6">
+                <!-- Profile Settings -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-user-circle text-blue-500"></i>
+                        Profile Settings
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input type="text" id="profileName" value="Pappu Lal Saini" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                            <input type="text" id="profileUsername" value="@itz.ps.official" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+                            <input type="text" id="profileAvatar" value="https://i.ibb.co/jPzwc9xt/img-3-1748936082182.jpg" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="onlineStatus" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                            <span class="text-sm font-medium text-gray-700">Online Status</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Controls -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-comment text-green-500"></i>
+                        Add Message
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Message Type</label>
+                                <select id="messageType" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="text">💬 Text</option>
+                                    <option value="image">🖼️ Image</option>
+                                    <option value="voice">🎵 Voice</option>
+                                    <option value="story">📸 Story</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sender</label>
+                                <select id="messageSender" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="sent">You</option>
+                                    <option value="received">Receiver</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="textInput">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="messageContent" placeholder="Type your message..." rows="3" 
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                        </div>
+
+                        <div id="imageInput" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                            <input type="text" id="imageUrl" placeholder="Enter image URL" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+                            <input type="text" id="imageCaption" placeholder="Add a caption..." 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div id="voiceInput" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Voice Message Duration</label>
+                            <select id="voiceDuration" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="0:05">5 seconds</option>
+                                <option value="0:15">15 seconds</option>
+                                <option value="0:30">30 seconds</option>
+                                <option value="1:00">1 minute</option>
+                            </select>
+                        </div>
+
+                        <button onclick="addMessage()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 font-medium">
+                            <i class="fas fa-plus mr-2"></i>Add Message
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Customization -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-palette text-purple-500"></i>
+                        Customization
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Chat Theme</label>
+                            <select id="chatTheme" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="default">Default</option>
+                                <option value="dark">Dark Mode</option>
+                                <option value="gradient">Gradient</option>
+                                <option value="ocean">Ocean Blue</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="showTimestamps" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                            <span class="text-sm font-medium text-gray-700">Show Timestamps</span>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="showReadReceipts" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                            <span class="text-sm font-medium text-gray-700">Show Read Receipts</span>
+                        </div>
+
+                        <button onclick="downloadChat()" class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white py-3 px-4 rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-200 font-medium">
+                            <i class="fas fa-download mr-2"></i>Download Screenshot
+                        </button>
+
+                        <button onclick="clearAllMessages()" class="w-full bg-gradient-to-r from-red-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:from-red-600 hover:to-pink-600 transition-all duration-200 font-medium">
+                            <i class="fas fa-trash mr-2"></i>Clear All Messages
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Preview -->
+            <div class="lg:sticky lg:top-4">
+                <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
+                    <div id="chatContainer" class="w-full max-w-md mx-auto bg-white">
+                        <!-- Chat Header -->
+                        <div id="chatHeader" class="p-4 border-b border-gray-200 bg-white flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <img id="headerAvatar" src="https://i.imgur.com/U7JRxTc.png" alt="Profile" 
+                                         class="w-10 h-10 rounded-full object-cover">
+                                    <div id="onlineIndicator" class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white online-indicator"></div>
+                                </div>
+                                <div>
+                                    <h3 id="headerName" class="font-semibold text-sm text-gray-900">Deepak Kahar</h3>
+                                    <p id="headerStatus" class="text-xs text-gray-500">Active now</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-phone text-gray-600 cursor-pointer hover:text-blue-500 transition-colors"></i>
+                                <i class="fas fa-video text-gray-600 cursor-pointer hover:text-blue-500 transition-colors"></i>
+                                <i class="fas fa-info-circle text-gray-600 cursor-pointer hover:text-blue-500 transition-colors"></i>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div id="chatMessages" class="p-4 min-h-96 max-h-96 overflow-y-auto bg-gray-50 space-y-3">
+                            <div class="text-center py-8 text-gray-400">
+                                <i class="fas fa-comments text-4xl mb-4"></i>
+                                <p>No messages yet. Add some messages to get started!</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div id="chatInput" class="p-4 border-t border-gray-200 bg-white flex items-center gap-2">
+                            <i class="fas fa-camera text-gray-600 cursor-pointer hover:text-blue-500 transition-colors"></i>
+                            <div class="flex-1 px-3 py-2 bg-gray-100 rounded-full border border-gray-300">
+                                <span class="text-sm text-gray-500">Message...</span>
+                            </div>
+                            <i class="fas fa-microphone text-gray-600 cursor-pointer hover:text-blue-500 transition-colors"></i>
+                            <i class="fas fa-heart text-gray-600 cursor-pointer hover:text-red-500 transition-colors"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messages = [];
+        let messageCounter = 0;
+        const reactions = ['❤️', '😂', '😮', '😢', '😡', '👍'];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProfile();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Profile updates
+            document.getElementById('profileName').addEventListener('input', updateProfile);
+            document.getElementById('profileUsername').addEventListener('input', updateProfile);
+            document.getElementById('profileAvatar').addEventListener('input', updateProfile);
+            document.getElementById('onlineStatus').addEventListener('change', updateProfile);
+            
+            // Theme changes
+            document.getElementById('chatTheme').addEventListener('change', updateTheme);
+            
+            // Message type changes
+            document.getElementById('messageType').addEventListener('change', toggleMessageInputs);
+            
+            // Settings
+            document.getElementById('showTimestamps').addEventListener('change', renderMessages);
+            document.getElementById('showReadReceipts').addEventListener('change', renderMessages);
+        }
+
+        function updateProfile() {
+            const name = document.getElementById('profileName').value;
+            const username = document.getElementById('profileUsername').value;
+            const avatar = document.getElementById('profileAvatar').value;
+            const isOnline = document.getElementById('onlineStatus').checked;
+
+            document.getElementById('headerName').textContent = name;
+            document.getElementById('headerAvatar').src = avatar;
+            document.getElementById('onlineIndicator').style.display = isOnline ? 'block' : 'none';
+            document.getElementById('headerStatus').textContent = isOnline ? 'Active now' : 'Last seen recently';
+        }
+
+        function toggleMessageInputs() {
+            const messageType = document.getElementById('messageType').value;
+            
+            // Hide all inputs
+            document.getElementById('textInput').classList.add('hidden');
+            document.getElementById('imageInput').classList.add('hidden');
+            document.getElementById('voiceInput').classList.add('hidden');
+            
+            // Show relevant input
+            if (messageType === 'text') {
+                document.getElementById('textInput').classList.remove('hidden');
+            } else if (messageType === 'image') {
+                document.getElementById('imageInput').classList.remove('hidden');
+            } else if (messageType === 'voice') {
+                document.getElementById('voiceInput').classList.remove('hidden');
+            }
+        }
+
+        function addMessage() {
+            const messageType = document.getElementById('messageType').value;
+            const sender = document.getElementById('messageSender').value;
+            let content = '';
+            let imageUrl = '';
+
+            if (messageType === 'text') {
+                content = document.getElementById('messageContent').value.trim();
+                if (!content) return;
+            } else if (messageType === 'image') {
+                imageUrl = document.getElementById('imageUrl').value.trim();
+                content = document.getElementById('imageCaption').value.trim();
+                if (!imageUrl) imageUrl = 'https://via.placeholder.com/300x200/667eea/ffffff?text=Sample+Image';
+            } else if (messageType === 'voice') {
+                content = document.getElementById('voiceDuration').value;
+            } else if (messageType === 'story') {
+                content = 'Shared a story';
+            }
+
+            const message = {
+                id: messageCounter++,
+                type: messageType,
+                content: content,
+                sender: sender,
+                timestamp: new Date().toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }),
+                isRead: sender === 'sent' ? true : Math.random() > 0.3,
+                imageUrl: imageUrl,
+                reaction: null
+            };
+
+            messages.push(message);
+            renderMessages();
+            clearInputs();
+        }
+
+        function clearInputs() {
+            document.getElementById('messageContent').value = '';
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imageCaption').value = '';
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('chatMessages');
+            const showTimestamps = document.getElementById('showTimestamps').checked;
+            const showReadReceipts = document.getElementById('showReadReceipts').checked;
+
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fas fa-comments text-4xl mb-4"></i>
+                        <p>No messages yet. Add some messages to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = messages.map(message => {
+                const isRight = message.sender === 'sent';
+                const bubbleClass = isRight ? 'bg-blue-500 text-white' : 'bg-white text-gray-900 border';
+                
+                let messageContent = '';
+                
+                if (message.type === 'image') {
+                    messageContent = `
+                        <div class="mb-2">
+                            <img src="${message.imageUrl}" alt="Shared image" class="rounded-lg max-w-full h-auto" style="max-width: 200px;">
+                        </div>
+                        ${message.content ? `<p class="text-sm">${message.content}</p>` : ''}
+                    `;
+                } else if (message.type === 'voice') {
+                    messageContent = `
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-microphone"></i>
+                            <div class="voice-wave">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <span class="text-xs ml-2">${message.content}</span>
+                        </div>
+                    `;
+                } else if (message.type === 'story') {
+                    messageContent = `
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-camera"></i>
+                            <span>${message.content}</span>
+                        </div>
+                    `;
+                } else {
+                    messageContent = `<p class="text-sm">${message.content}</p>`;
+                }
+
+                return `
+                    <div class="flex ${isRight ? 'justify-end' : 'justify-start'} message-bubble">
+                        <div class="max-w-xs group ${isRight ? 'text-right' : 'text-left'}">
+                            <div class="relative">
+                                <div class="inline-block px-4 py-2 rounded-2xl ${bubbleClass}">
+                                    ${messageContent}
+                                </div>
+                                
+                                ${message.reaction ? `
+                                    <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-md">
+                                        <span class="text-xs">${message.reaction}</span>
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-0 -right-8 flex flex-col gap-1">
+                                    <button onclick="deleteMessage(${message.id})" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <div class="flex gap-1">
+                                        ${reactions.slice(0, 3).map(reaction => `
+                                            <button onclick="addReaction(${message.id}, '${reaction}')" class="reaction-btn bg-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md hover:shadow-lg">
+                                                ${reaction}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-1 mt-1 text-xs ${isRight ? 'justify-end' : 'justify-start'} text-gray-400">
+                                ${showTimestamps ? `<span>${message.timestamp}</span>` : ''}
+                                ${showReadReceipts && message.sender === 'sent' ? `
+                                    <div class="w-3 h-3 rounded-full ${message.isRead ? 'bg-blue-500' : 'border border-gray-400'}"></div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(msg => msg.id !== id);
+            renderMessages();
+        }
+
+        function addReaction(id, reaction) {
+            messages = messages.map(msg => 
+                msg.id === id ? { ...msg, reaction: reaction } : msg
+            );
+            renderMessages();
+        }
+
+        function clearAllMessages() {
+            if (confirm('Are you sure you want to clear all messages?')) {
+                messages = [];
+                renderMessages();
+            }
+        }
+
+        function updateTheme() {
+            const theme = document.getElementById('chatTheme').value;
+            const container = document.getElementById('chatContainer');
+            const header = document.getElementById('chatHeader');
+            const messagesContainer = document.getElementById('chatMessages');
+            const input = document.getElementById('chatInput');
+
+            // Reset classes
+            container.className = 'w-full max-w-md mx-auto';
+            header.className = 'p-4 border-b flex items-center justify-between';
+            messagesContainer.className = 'p-4 min-h-96 max-h-96 overflow-y-auto space-y-3';
+            input.className = 'p-4 border-t flex items-center gap-2';
+
+            switch(theme) {
+                case 'dark':
+                    container.classList.add('theme-dark');
+                    header.classList.add('bg-gray-800', 'border-gray-700');
+                    messagesContainer.classList.add('bg-gray-900');
+                    input.classList.add('bg-gray-800', 'border-gray-700');
+                    break;
+                case 'gradient':
+                    container.classList.add('theme-gradient');
+                    header.classList.add('bg-black', 'bg-opacity-20', 'border-white', 'border-opacity-20');
+                    messagesContainer.classList.add('bg-black', 'bg-opacity-10');
+                    input.classList.add('bg-black', 'bg-opacity-20', 'border-white', 'border-opacity-20');
+                    break;
+                case 'ocean':
+                    container.classList.add('theme-ocean');
+                    header.classList.add('bg-black', 'bg-opacity-20', 'border-white', 'border-opacity-20');
+                    messagesContainer.classList.add('bg-black', 'bg-opacity-10');
+                    input.classList.add('bg-black', 'bg-opacity-20', 'border-white', 'border-opacity-20');
+                    break;
+                default:
+                    header.classList.add('bg-white', 'border-gray-200');
+                    messagesContainer.classList.add('bg-gray-50');
+                    input.classList.add('bg-white', 'border-gray-200');
+            }
+        }
+
+        async function downloadChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            
+            try {
+                const canvas = await html2canvas(chatContainer, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    foreignObjectRendering: true
+                });
+
+                const link = document.createElement('a');
+                link.download = `instagram-chat-${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Success notification
+                showNotification('Chat screenshot downloaded successfully! 📸', 'success');
+            } catch (error) {
+                console.error('Error generating screenshot:', error);
+                showNotification('Error generating screenshot. Please try again.', 'error');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add some sample messages on load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                // Add sample messages
+                messages = [
+                    {
+                        id: 0,
+                        type: 'text',
+                        content: 'Hey! How are you doing? 😊',
+                        sender: 'received',
+                        timestamp: '14:30',
+                        isRead: true,
+                        reaction: '❤️'
+                    },
+                    {
+                        id: 1,
+                        type: 'text',
+                        content: 'I\'m doing great! Thanks for asking 🙌',
+                        sender: 'sent',
+                        timestamp: '14:32',
+                        isRead: true,
+                        reaction: null
+                    }
+                ];
+                messageCounter = 2;
+                renderMessages();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
